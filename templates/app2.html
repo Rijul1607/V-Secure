@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Secure: Car Prediction App</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap");
+
+        * {
+            font-family: Poppins, sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            background: linear-gradient(to right, #1a73e8, #4285f4);
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px;
+            transition: transform 0.3s ease;
+            transform: translateX(0);
+        }
+
+        .sidebar.closed {
+            transform: translateX(-100%);
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            font-size: 1em;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .menu-item img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        /* Main Content Styling */
+        .container {
+            flex-grow: 1;
+            max-width: 1200px;
+            width: 100%;
+            background-color: #fff;
+            color: #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .logo-con {
+            display: flex;
+            align-items: center;
+        }
+
+        .t {
+            font-size: 1.5em;
+            color: #2d2dea;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: none; /* Hide all sections by default */
+            margin-top: 20px;
+        }
+
+        .section {
+            background-color: #e0e7ff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .output {
+            margin-top: 20px;
+            font-weight: bold;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+        }
+
+        button {
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0d47a1;
+        }
+
+        input[type="file"], input[type="number"] {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        /* Additional styling for news section */
+        .news-section {
+            max-width: 1200px;
+            width: 100%;
+            background-color: #e0f7fa;
+            color: #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .news-section h2 {
+            color: #00796b;
+        }
+
+        .news-output {
+            background-color: #ffffff; /* White background for news output box */
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+        
+
+        .news-output h3 {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #2d2dea;
+            font-weight: bold;
+        }
+
+        .news-output p {
+            margin: 5px 0;
+        }
+
+        .news-output hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 10px 0;
+        }
+
+        /* Toggle Button Styling */
+        .toggle-button {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-button" onclick="toggleSidebar()">Toggle Sidebar</button>
+
+    <div class="sidebar" id="sidebar">
+        <!-- Prediction Section -->
+        <div class="section">
+            <h2>Prediction</h2>
+            <div class="menu-item" onclick="showSection('image')">
+                <img src="https://img.icons8.com/material-outlined/24/000000/image.png" alt="Image Icon"/>
+                Image Prediction
+            </div>
+            <div class="menu-item" onclick="showSection('data')">
+                <img src="https://img.icons8.com/material-outlined/24/000000/document.png" alt="Data Icon"/>
+                Data Prediction
+            </div>
+        </div>
+
+        <!-- News Section -->
+        <div class="section">
+            <h2>News</h2>
+            <div class="menu-item" onclick="showSection('news')">
+                <img src="https://img.icons8.com/material-outlined/24/000000/news.png" alt="News Icon"/>
+                Car Hacking News
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="container">
+        <div class="logo-con">
+            <img src="/static/images/logo-removebg-preview (1).png" alt="" width="100" class="logo">
+            <span class="t">V-Secure</span>
+        </div>
+        
+        <!-- Main content sections -->
+        <div id="imageSection" class="main-content">
+            <div class="section">
+                <h2>Upload an Image for Prediction</h2>
+                <form id="imageForm" action="/predict_image" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" accept=".png, .jpg, .jpeg" required>
+                    <button type="submit" id="imageSubmit">Predict Image</button>
+                </form>
+                <div id="imageResult" class="output">Image Prediction Result will be displayed here.</div>
+            </div>
+        </div>
+
+        <div id="dataSection" class="main-content">
+            <div class="section">
+                <h2>Input Data for Prediction</h2>
+                <form id="dataForm" action="/predict_data" method="post">
+                    <input type="number" name="input1" placeholder="CAN ID" required>
+                    <input type="number" name="input2" placeholder="Input 2" required>
+                    <input type="number" name="input3" placeholder="Input 3" required>
+                    <input type="number" name="input4" placeholder="Input 4" required>
+                    <input type="number" name="input5" placeholder="Input 5" required>
+                    <input type="number" name="input6" placeholder="Input 6" required>
+                    <input type="number" name="input7" placeholder="Input 7" required>
+                    <input type="number" name="input8" placeholder="Input 8" required>
+                    <input type="number" name="input9" placeholder="Input 9" required>
+                    <button type="submit" id="dataSubmit">Predict Data</button>
+                </form>
+                <div id="dataResult" class="output">Data Prediction Result will be displayed here.</div>
+            </div>
+        </div>
+
+        <div id="newsSection" class="news-section main-content">
+            <h2>Latest Car Hacking News</h2>
+            <button onclick="fetchNews()">Get Latest News</button>
+            <div id="newsResult" class="news-output">News articles will be displayed here.</div>
+        </div>
+    </div>
+
+    <script>
+        // Function to show the relevant section
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.main-content').forEach(el => el.style.display = 'none');
+            // Show the selected section
+            if (section === 'image') {
+                document.getElementById('imageSection').style.display = 'block';
+            } else if (section === 'data') {
+                document.getElementById('dataSection').style.display = 'block';
+            } else if (section === 'news') {
+                document.getElementById('newsSection').style.display = 'block';
+            }
+        }
+
+        // Handle image prediction
+        const imageForm = document.getElementById('imageForm');
+        imageForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent the default form submission
+            const formData = new FormData(imageForm);
+            const response = await fetch(imageForm.action, {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('imageResult').innerText = `Image Prediction Result: ${JSON.stringify(result)}`;
+        });
+
+        // Handle data prediction
+        const dataForm = document.getElementById('dataForm');
+        dataForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent the default form submission
+            const formData = new FormData(dataForm);
+            const response = await fetch(dataForm.action, {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('dataResult').innerText = `Data Prediction Result: ${JSON.stringify(result)}`;
+        });
+
+        // Fetch latest car hacking news
+        async function fetchNews() {
+            const response = await fetch('/car_hacking_news');
+            const data = await response.json();
+
+            const newsContainer = document.getElementById('newsResult');
+            newsContainer.innerHTML = '';  // Clear previous news
+
+            if (data.articles) {
+                data.articles.forEach(article => {
+                    const articleDiv = document.createElement('div');
+                    articleDiv.innerHTML = `
+                        <h3>${article.title}</h3>
+                        <span>${article.date}</span>
+                        <p>${article.summary}</p>
+                        <a href="${article.link}" target="_blank">Read more</a>
+                        <hr>
+                    `;
+                    newsContainer.appendChild(articleDiv);
+                });
+            } else {
+                newsContainer.innerHTML = '<p>No news available.</p>';
+            }
+        }
+
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const container = document.getElementById('container');
+            sidebar.classList.toggle('closed');
+            container.style.marginLeft = sidebar.classList.contains('closed') ? '0' : '250px'; // Adjust container margin
+        }
+
+        // Optionally, you can show the image section by default on page load
+        document.addEventListener('DOMContentLoaded', () => showSection('image'));
+    </script>
+</body>
+</html>

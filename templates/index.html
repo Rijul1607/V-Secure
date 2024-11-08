@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Prediction App</title>
+    
+    <style>
+        
+        @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap");
+        *{
+            font-family: Poppins;
+        }
+        body {
+
+            font-family: Poppins;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #f4f4f4;
+        }
+
+        h1, h2 {
+            color: #f9c74f;
+        }
+
+        form {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+        }
+
+        input[type="file"], 
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #444;
+            color: #f4f4f4;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #imageSubmit {
+            background-color: #007bff;
+            color: #fff;
+        }
+        #imageSubmit:hover {
+            background-color: #0056b3;
+        }
+
+        #dataSubmit {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        #dataSubmit:hover {
+            background-color: #b12a36;
+        }
+
+        #imageResult, #dataResult {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #444;
+            color: #f4f4f4;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid #555;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>V-Secure: Smart Protection for Vehicle Communication Systems </h1>
+
+    <!-- Image Prediction Form -->
+    <h2>Upload an Image for Prediction</h2>
+    <form id="imageForm" action="/predict_image" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".png, .jpg, .jpeg" required>
+        <button type="submit" id="imageSubmit">Predict Image</button>
+    </form>
+    <div id="imageResult"></div>
+
+    <!-- PKL Model Prediction Form -->
+    <h2>Input Data for  Prediction</h2>
+    <form id="dataForm" action="/predict_data" method="post">
+        <input type="number" name="input1" placeholder="CAN ID" required>
+        <input type="number" name="input2" placeholder="Input 2" required>
+        <input type="number" name="input3" placeholder="Input 3" required>
+        <input type="number" name="input4" placeholder="Input 4" required>
+        <input type="number" name="input5" placeholder="Input 5" required>
+        <input type="number" name="input6" placeholder="Input 6" required>
+        <input type="number" name="input7" placeholder="Input 7" required>
+        <input type="number" name="input8" placeholder="Input 8" required>
+        <input type="number" name="input9" placeholder="Input 9" required>
+        <button type="submit" id="dataSubmit">Predict Data</button>
+    </form>
+    <div id="dataResult"></div>
+
+    <script>
+        // Handle image prediction
+        const imageForm = document.getElementById('imageForm');
+        imageForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(imageForm);
+            const response = await fetch('/predict_image', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('imageResult').innerText = `Image Prediction Result: ${JSON.stringify(result)}`;
+        });
+
+        // Handle PKL model prediction
+        const dataForm = document.getElementById('dataForm');
+        dataForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(dataForm);
+            const response = await fetch('/predict_data', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('dataResult').innerText = `Data Prediction Result: ${JSON.stringify(result)}`;
+        });
+    </script>
+</body>
+</html>
