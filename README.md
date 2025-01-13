@@ -7,8 +7,8 @@ This project aims to secure intra-vehicle communications using a dual-layer mode
 ## Demo Video
 
 
-<video src="https://github.com/user-attachments/assets/554c3838-c8cc-48d8-934f-0366bc5347c1" width="352" height="720"></video>
 
+<video src="https://github.com/user-attachments/assets/554c3838-c8cc-48d8-934f-0366bc5347c1" width="352" height="720"></video>
 ## Features
 
 ### Image-Based Model
