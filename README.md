@@ -1,4 +1,4 @@
-##  <img src="https://github.com/user-attachments/assets/7bdc141f-8046-4741-b184-4d81c83c05fd" alt="logo" width="50" height="50">**V-Secure**: An Intelligent Data-Driven Model to Secure Intra-Vehicle Communications 🚗🛡️
+#  <img src="https://github.com/user-attachments/assets/7bdc141f-8046-4741-b184-4d81c83c05fd" alt="logo" width="50" height="50">**V-Secure**: An Intelligent Data-Driven Model to Secure Intra-Vehicle Communications 🚗🛡️
 
 ## Overview
 
