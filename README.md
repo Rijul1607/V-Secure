@@ -6,13 +6,14 @@ This project aims to secure intra-vehicle communications using a dual-layer mode
 
 ## Demo Video
 
-![Watch the Demo Video]()
+![Watch the Demo Video](demo.mp4)
 
 ## Features
 
 ### Image-Based Model
 
-![Image-Based Model Visualization](path/to/image-based-model.png)
+![Image-Based Model Visualization](all%20img.png)
+![Image-Based Model Visualization](all%20img2.png)
 
 - **Pattern Recognition in Visual Data:** Utilizes deep learning to analyze visual representations of network activity, such as CAN bus signal patterns or heatmaps, to detect unusual shapes or spikes that may indicate cyber threats.
 - **Enhanced Detection of Anomalies:** Identifies deviations in normal waveform patterns to spot attacks that alter typical signal flow, such as spoofing or injection attacks.
@@ -72,11 +73,11 @@ This project aims to secure intra-vehicle communications using a dual-layer mode
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/vehicle-communication-security.git
+   git clone https://github.com/Rijul1607/V-Secure.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd vehicle-communication-security
+   cd V-Secure
    ```
 3. Install the required dependencies:
    ```bash
