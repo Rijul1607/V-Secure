@@ -6,7 +6,7 @@ This project aims to secure intra-vehicle communications using a dual-layer mode
 
 ## Demo Video
 
-![Watch the Demo Video](https://drive.google.com/file/d/1lw4hruoIuH4qGN6xxAJZevtzb9-7ERQi/view?usp=drive_link)
+![Watch the Demo Video](demo%20(1).mp4)
 
 ## Features
 
