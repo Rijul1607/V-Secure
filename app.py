@@ -5,16 +5,18 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from PIL import Image
+import requests
+from bs4 import BeautifulSoup
 
 # Initialize the Flask application
 app = Flask(__name__)
 
 # Load the PKL model
-pkl_model_path = 'C:\\Users\\RIJUL GULATI\\Documents\\Custom Office Templates\\OneDrive\\Desktop\\MINI PROJECT\\random_forest_model.pkl'
+pkl_model_path = 'C:\\Users\\RIJUL GULATI\\Documents\\Custom Office Templates\\OneDrive\\Desktop\\V-Secure\\models\\random_forest_model.pkl'
 pkl_model = joblib.load(pkl_model_path)
 
 # Load the CNN model
-model_path = 'C:\\Users\\RIJUL GULATI\\Documents\\Custom Office Templates\\OneDrive\\Desktop\\MINI PROJECT\\xception.keras'
+model_path = 'C:\\Users\\RIJUL GULATI\\Documents\\Custom Office Templates\\OneDrive\\Desktop\\V-Secure\\models\\xception.keras'
 model = load_model(model_path)
 
 # Allowed image extensions
@@ -97,6 +99,34 @@ def predict_image():
             return jsonify({"error": f"Prediction failed: {str(e)}"}), 500
     else:
         return jsonify({"error": "Invalid file type"}), 400
+
+# Web scraper for car hacking news
+@app.route('/car_hacking_news', methods=['GET'])
+def car_hacking_news():
+    url = 'https://thehackernews.com/search/label/car%20hacking'
+    response = requests.get(url)
+    
+    if response.status_code != 200:
+        return jsonify({"error": "Failed to retrieve data"}), 500
+
+    # Parse the page content
+    soup = BeautifulSoup(response.text, 'html.parser')
+    articles = []
+
+    for item in soup.find_all('div', class_='body-post')[:5]:  # Limit to top 5 articles
+        title = item.find('h2', class_='home-title').text.strip()
+        date = item.find('span', class_='h-datetime').text.strip()
+        summary = item.find('div', class_='home-desc').text.strip()
+        link = item.find('a')['href']
+        
+        articles.append({
+            'title': title,
+            'date': date,
+            'summary': summary,
+            'link': link
+        })
+
+    return jsonify({"articles": articles})
 
 # Run the server
 if __name__ == '__main__':
