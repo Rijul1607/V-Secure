@@ -1,4 +1,4 @@
-# **V-Secure**: An Intelligent Data-Driven Model to Secure Intra-Vehicle Communications 🚗🛡️
+# ![Image-Based Model Visualization](\static\images\logo-removebg-preview%20(1).png) **V-Secure**: An Intelligent Data-Driven Model to Secure Intra-Vehicle Communications 🚗🛡️
 
 ## Overview
 
