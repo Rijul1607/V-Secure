@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 app = Flask(__name__)
 
 # Load the PKL model
-pkl_model_path = 'C:\\Users\\RIJUL GULATI\\Documents\\Custom Office Templates\\OneDrive\\Desktop\\V-Secure\\models\\random_forest_model.pkl'
+pkl_model_path = 'C:\\Users\\RIJUL GULATI\\Documents\\Custom Office Templates\\OneDrive\\Desktop\\V-Secure\\models\\random_forest_model(1).pkl'
 pkl_model = joblib.load(pkl_model_path)
 
 # Load the CNN model
@@ -54,7 +54,7 @@ def index():
 def predict_data():
     try:
         # Get 9 inputs directly from form data
-        input_data = [float(request.form[f'input{i+1}']) for i in range(9)]
+        input_data = [float(request.form[f'input{i+1}']) for i in range(1,9,1)]
         
         # Convert input data to numpy array and reshape for prediction
         input_data = np.array(input_data).reshape(1, -1)
